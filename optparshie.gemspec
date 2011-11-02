@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = "optparshie"
-  s.version = "1.0.1"
+  s.version = "1.0.3"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["lpm11"]
@@ -26,6 +26,7 @@ Gem::Specification.new do |s|
     "VERSION",
     "example/example1.rb",
     "lib/optparshie.rb",
+    "optparshie.gemspec",
     "spec/optparshie_spec.rb",
     "spec/spec_helper.rb"
   ]
