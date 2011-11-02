@@ -4,20 +4,20 @@ Enhanced OptionParser, it can access to parsed argv through Hashie::Mash like.
 
 == Example
 
-argv = "--test --wa -a 2 --on".split(/\s+/);
-puts("test argv: #{argv}");
+  argv = "--test --wa -a 2 --on".split(/\s+/);
+  puts("test argv: #{argv}");
 
-opt = OptionParshie.new();
-opt.on("-a","--a-value=VAL");
-opt.on("--test");
-opt.on("-w","--waros");
-opt.on("-o","--on");
-opt.parse(argv);
-
-# access with short option
-puts("opt.a => #{opt.a}");
-puts("opt.w => #{opt.w}");
-puts("opt.o => #{opt.o}");
+  opt = OptionParshie.new();
+  opt.on("-a","--a-value=VAL");
+  opt.on("--test");
+  opt.on("-w","--waros");
+  opt.on("-o","--on");
+  opt.parse(argv);
+  
+  # access with short option
+  puts("opt.a => #{opt.a}");
+  puts("opt.w => #{opt.w}");
+  puts("opt.o => #{opt.o}");
 
 == Copyright
 
