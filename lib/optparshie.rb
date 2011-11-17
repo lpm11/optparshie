@@ -2,11 +2,12 @@
 #-*- coding: utf-8 -*-
 require("rubygems");
 require("optparse");
+require("hashie");
 
 class OptionParshie < OptionParser
   def initialize()
     super;
-    @hash = {};
+    @mash = Hashie::Mash.new();
   end
 
   def hash_key_sanitize(switch)
@@ -14,24 +15,28 @@ class OptionParshie < OptionParser
   end
 
   def hash_sw_add(sw,val)
-    (sw.short+sw.long).each { |switch| @hash[hash_key_sanitize(switch)] = val; }
+    (sw.short+sw.long).each { |switch| @mash.send(hash_key_sanitize(switch)+"=",val); }
   end
 
   def parse(*argv)
-    @hash = {};
+    @mash.clear();
     top.list.each { |sw| hash_sw_add(sw,nil); }
-    super;
+    argv = super;
+    
+    return @mash;
   end
   
   def parse!(*argv)
-    @hash = {};
+    @mash.clear();
     top.list.each { |sw| hash_sw_add(sw,nil); }
-    super;
+    argv = super;
+    
+    return [ argv,@mash ];
   end
 
   # ----------------------------------------------------------------------------
   # Borrowed from optparse.rb
-  #   (author of optparse.rb is Nobu Nakada-san, thank you!)
+  #   (author of optparse.rb is Nobu Nakada-san, thanks!)
   # ----------------------------------------------------------------------------
   def parse_in_order(argv = default_argv, setter = nil, &nonopt)  # :nodoc:
     opt, arg, val, rest = nil
@@ -119,14 +124,9 @@ class OptionParshie < OptionParser
   end
 
   def method_missing(name,*args)
-    name = name.to_s();
-    if (@hash.key?(name))
-      return @hash[name];
-    else
-      super;
-    end
+    return @mash.send(name);
   end
 
-  attr_reader :hash;
+  attr_reader :mash;
   private :hash_key_sanitize, :hash_sw_add;
 end

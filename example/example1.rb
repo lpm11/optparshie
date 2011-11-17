@@ -2,15 +2,19 @@
 #-*- coding: utf-8 -*-
 require("../lib/optparshie");
 
-argv = "--test --wa -a 2 --on".split(/\s+/);
+argv = "--exp --wa -a 2 --on ADDITION".split(/\s+/);
 puts("test argv: #{argv}");
 
 opt = OptionParshie.new();
 opt.on("-a","--a-value=VAL");
-opt.on("--test");
+opt.on("--exp");
 opt.on("-w","--waros");
 opt.on("-o","--on");
-opt.parse(argv);
+
+# parse returns mash
+puts("opt.parse => #{opt.parse(argv)}");
+# parse! returns [argv, mash]
+puts("opt.parse! => #{opt.parse!(argv)}");
 
 # access with short option
 puts("opt.a => #{opt.a}");
@@ -19,10 +23,10 @@ puts("opt.o => #{opt.o}");
 
 # access with long option
 puts("opt.a_value => #{opt.a_value}");
-puts("opt.test => #{opt.test}");
+puts("opt.exp => #{opt.exp}");
 puts("opt.waros => #{opt.waros}");
-# Oops! This is already defined method....
+# Oops! It's already defined method....
 # opt.on => Usage: example1 (blah blah blah)
 
 # instead of you can access through hash
-puts("opt.hash['on'] => #{opt.hash['on']}");
+puts("opt.mash.on => #{opt.mash.on}");
