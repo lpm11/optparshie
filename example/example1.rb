@@ -2,7 +2,7 @@
 #-*- coding: utf-8 -*-
 require("../lib/optparshie");
 
-argv = "--exp --wa -a 2 --on ADDITION".split(/\s+/);
+argv = "--exp --wa -a 2 --on --no-foo --bar ADDITION".split(/\s+/);
 puts("test argv: #{argv}");
 
 opt = OptionParshie.new();
@@ -10,6 +10,8 @@ opt.on("-a","--a-value=VAL");
 opt.on("--exp");
 opt.on("-w","--waros");
 opt.on("-o","--on");
+opt.on("--[no-]foo");
+opt.on("--[no-]bar");
 
 # parse returns mash
 puts("opt.parse => #{opt.parse(argv)}");
@@ -30,3 +32,7 @@ puts("opt.waros => #{opt.waros}");
 
 # You should access via short option instead.... :X
 puts("opt.o => #{opt.o}");
+
+# -no options
+puts("opt.foo => #{opt.foo}");
+puts("opt.bar => #{opt.bar}");

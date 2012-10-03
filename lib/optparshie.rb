@@ -15,7 +15,11 @@ class OptionParshie < OptionParser
   end
 
   def hash_key_sanitize(switch)
-    return switch.gsub(/^-+/,"").gsub(/\W/,"_");
+    switch.gsub!(/^--\[no-\]/,"--");
+    switch.gsub!(/^-+/,"")
+    switch.gsub!(/\W/,"_");
+    
+    return switch;
   end
 
   def hash_sw_add(sw,val)
