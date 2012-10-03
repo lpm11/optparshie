@@ -15,6 +15,7 @@ class OptionParshie < OptionParser
   end
 
   def hash_key_sanitize(switch)
+    switch = switch.dup();
     switch.gsub!(/^--\[no-\]/,"--");
     switch.gsub!(/^-+/,"")
     switch.gsub!(/\W/,"_");
@@ -70,7 +71,7 @@ class OptionParshie < OptionParser
             # ------------------------------------------------------------------
             # optparshie code by l.p.m.11
             # ------------------------------------------------------------------
-            hash_sw_add(sw,val);
+            hash_sw_add(sw, val);
             
             val = cb.call(val) if cb
             setter.call(sw.switch_name, val) if setter
@@ -106,7 +107,7 @@ class OptionParshie < OptionParser
             # ------------------------------------------------------------------
             # optparshie code by l.p.m.11
             # ------------------------------------------------------------------
-            hash_sw_add(sw,val);
+            hash_sw_add(sw, val);
             
             argv.unshift(opt) if opt and (!rest or (opt = opt.sub(/\A-*/, '-')) != '-')
             val = cb.call(val) if cb

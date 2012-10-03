@@ -13,6 +13,9 @@ opt.on("-o","--on");
 opt.on("--[no-]foo");
 opt.on("--[no-]bar");
 
+# help
+puts("opt.help =>\n#{opt.help}");
+
 # parse returns mash
 puts("opt.parse => #{opt.parse(argv)}");
 # parse! returns [argv, mash]
