@@ -2,12 +2,16 @@
 #-*- coding: utf-8 -*-
 require("rubygems");
 require("optparse");
-require("hashie");
 
 class OptionParshie < OptionParser
   def initialize()
     super;
-    @mash = Hashie::Mash.new();
+    hash_init();
+  end
+
+  def hash_init()
+    @opt_hash = Hash.new();
+    @opt_key = Hash.new();
   end
 
   def hash_key_sanitize(switch)
@@ -15,23 +19,27 @@ class OptionParshie < OptionParser
   end
 
   def hash_sw_add(sw,val)
-    (sw.short+sw.long).each { |switch| @mash.send(hash_key_sanitize(switch)+"=",val); }
+    keys = (sw.short + sw.long).map { |x| hash_key_sanitize(x); };
+    primary_key = keys.first;
+    keys.each { |key| @opt_key[key] = primary_key; }
+    
+    @opt_hash[primary_key] = val;
   end
 
   def parse(*argv)
-    @mash.clear();
+    hash_init();
     top.list.each { |sw| hash_sw_add(sw,nil); }
-    argv = super;
+    x = super;
     
-    return @mash;
+    return x;
   end
   
   def parse!(*argv)
-    @mash.clear();
+    hash_init();
     top.list.each { |sw| hash_sw_add(sw,nil); }
-    argv = super;
+    x = super;
     
-    return [ argv,@mash ];
+    return x;
   end
 
   # ----------------------------------------------------------------------------
@@ -124,9 +132,17 @@ class OptionParshie < OptionParser
   end
 
   def method_missing(name,*args)
-    return @mash.send(name);
+    name = name.to_s();
+    subst = !(name.gsub!(/=$/,"").nil?);
+    raise if (!@opt_key.key?(name));
+
+    if (!subst)
+      return @opt_hash[@opt_key[name]];
+    else
+      return @opt_hash[@opt_key[name]] = args.first;
+    end
   end
 
-  attr_reader :mash;
-  private :hash_key_sanitize, :hash_sw_add;
+  attr_reader :opt_hash;
+  private :hash_key_sanitize, :hash_sw_add, :hash_init;
 end

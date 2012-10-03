@@ -28,5 +28,5 @@ puts("opt.waros => #{opt.waros}");
 # Oops! It's already defined method....
 # opt.on => Usage: example1 (blah blah blah)
 
-# instead of you can access through hash
-puts("opt.mash.on => #{opt.mash.on}");
+# You should access via short option instead.... :X
+puts("opt.o => #{opt.o}");
